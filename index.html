@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Server Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a1a; /* Dunkelgrau statt Schwarz */
+            --card: rgba(255, 255, 255, 0.07);
+            --accent: #00f2ff;
+            --text: #eeeeee;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #2c2c2c 0%, #1a1a1a 100%);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        h1 { font-family: 'Orbitron', sans-serif; color: var(--accent); text-transform: uppercase; margin-top: 10px; }
+        
+        /* Language Switcher */
+        .lang-switch { margin-bottom: 30px; }
+        button { 
+            background: var(--card); border: 1px solid var(--accent); color: white; 
+            padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron';
+        }
+
+        .logo-placeholder {
+            width: 100px; height: 100px;
+            background: var(--card); border-radius: 20px;
+            border: 2px solid var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .logo-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+
+        .container { max-width: 800px; width: 100%; }
+
+        .card {
+            background: var(--card); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 25px;
+            padding: 25px; margin-bottom: 20px; width: 100%; box-sizing: border-box;
+        }
+
+        .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
+        .time { font-size: 1.8rem; font-weight: bold; color: var(--accent); display: block; }
+        .label { font-size: 0.7rem; opacity: 0.7; }
+
+        /* Mobile Fix: Boxen untereinander (Deine Anweisung) */
+        @media (max-width: 600px) {
+            .countdown-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+            .card { padding: 15px; }
+        }
+
+        .lang-fr .de, .lang-de .fr { display: none; }
+        .ip-text { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; display: block; margin-top: 5px; font-family: monospace; color: var(--accent); }
+    </style>
+</head>
+<body class="lang-de">
+
+    <div class="logo-placeholder">
+        <img src="server-icon.png" alt="Logo">
+    </div>
+
+    <h1 class="de">Server Hub</h1>
+    <h1 class="fr">Centre Serveur</h1>
+
+    <div class="lang-switch">
+        <button onclick="document.body.className='lang-de'">DE 🇩🇪</button>
+        <button onclick="document.body.className='lang-fr'">FR 🇫🇷</button>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2 class="de">Joinen (IP)</h2><h2 class="fr">Rejoindre</h2>
+            <p><strong>Java (PC):</strong> <span class="ip-text">fax-coaching.gl.joinmc.link</span></p>
+            <p><strong>Bedrock (Xbox/Mobile):</strong> 
+                <span class="ip-text">IP: course-inner.gl.at.ply.gg</span>
+                <span class="ip-text">Port: 25763</span>
+            </p>
+        </div>
+
+        <div class="card">
+            <h2 class="de">Inventar behalten: AUS</h2><h2 class="fr">Garder l'inventaire: OFF</h2>
+            <div id="count-inv" class="countdown-grid"></div>
+        </div>
+
+        <div class="card">
+            <h2 class="de">Das ENDE öffnet sich</h2><h2 class="fr">L'END s'ouvre</h2>
+            <div id="count-end" class="countdown-grid"></div>
+        </div>
+
+        <div class="card">
+            <h2 class="de">Befehle & Features</h2><h2 class="fr">Commandes & Fonctions</h2>
+            <ul>
+                <li><strong>/backpack</strong> - <span class="de">Öffne deinen Rucksack</span><span class="fr">Ouvre ton sac à dos</span></li>
+                <li><strong>/sit</strong> - <span class="de">Überall hinsetzen</span><span class="fr">S'asseoir partout</span></li>
+                <li><strong>/sethome</strong> - <span class="de">Zuhause speichern</span><span class="fr">Sauvegarder sa maison</span></li>
+                <li><strong>/home</strong> - <span class="de">Nach Hause teleportieren</span><span class="fr">Se téléporter à la maison</span></li>
+                <li><strong>/skin [Name]</strong> - <span class="de">Deinen Skin ändern</span><span class="fr">Changer ton skin</span></li>
+            </ul>
+        </div>
+    </div>
+
+<script>
+    function updateTimer(id, targetDate) {
+        const el = document.getElementById(id);
+        const target = new Date(targetDate).getTime();
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const d = target - now;
+            const days = Math.floor(d / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((d % (1000 * 60)) / 1000);
+
+            el.innerHTML = `
+                <div><span class="time">${days}</span><span class="label">DAYS</span></div>
+                <div><span class="time">${hours}</span><span class="label">HOURS</span></div>
+                <div><span class="time">${mins}</span><span class="label">MINS</span></div>
+                <div><span class="time">${secs}</span><span class="label">SECS</span></div>
+            `;
+        }, 1000);
+    }
+    updateTimer('count-inv', 'February 28, 2026 20:00:00');
+    updateTimer('count-end', 'March 7, 2026 20:00:00');
+</script>
+</body>
+</html>

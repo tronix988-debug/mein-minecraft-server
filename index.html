@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #1a1a1a; /* Dunkelgrau statt Schwarz */
+            --bg: #1a1a1a; 
             --card: rgba(255, 255, 255, 0.07);
             --accent: #00f2ff;
             --text: #eeeeee;
@@ -23,39 +23,31 @@
             padding: 40px 20px;
         }
         h1 { font-family: 'Orbitron', sans-serif; color: var(--accent); text-transform: uppercase; margin-top: 10px; }
-        
-        /* Language Switcher */
         .lang-switch { margin-bottom: 30px; }
         button { 
             background: var(--card); border: 1px solid var(--accent); color: white; 
             padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron';
         }
-
         .logo-placeholder {
             width: 100px; height: 100px;
-            background: var(--card); border-radius: 20px;
-            border: 2px solid var(--accent);
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+            background: var(--card); border-radius: 20px; border: 2px solid var(--accent);
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
         .logo-placeholder img { width: 100%; height: 100%; object-fit: cover; }
-
         .container { max-width: 800px; width: 100%; }
-
         .card {
             background: var(--card); backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 25px;
             padding: 25px; margin-bottom: 20px; width: 100%; box-sizing: border-box;
         }
-
         .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
         .time { font-size: 1.8rem; font-weight: bold; color: var(--accent); display: block; }
         .label { font-size: 0.7rem; opacity: 0.7; }
-
-        /* Mobile Fix: Boxen untereinander (Deine Anweisung) */
+        .plugin-item { margin-bottom: 15px; border-left: 3px solid var(--accent); padding-left: 15px; }
+        .cmd { font-family: monospace; color: var(--accent); background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 4px; }
+        
         @media (max-width: 600px) {
             .countdown-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
-            .card { padding: 15px; }
         }
 
         .lang-fr .de, .lang-de .fr { display: none; }
@@ -78,7 +70,7 @@
 
     <div class="container">
         <div class="card">
-            <h2 class="de">Joinen (IP)</h2><h2 class="fr">Rejoindre</h2>
+            <h2 class="de">Verbindung</h2><h2 class="fr">Connexion</h2>
             <p><strong>Java (PC):</strong> <span class="ip-text">fax-coaching.gl.joinmc.link</span></p>
             <p><strong>Bedrock (Xbox/Mobile):</strong> 
                 <span class="ip-text">IP: course-inner.gl.at.ply.gg</span>
@@ -97,14 +89,31 @@
         </div>
 
         <div class="card">
-            <h2 class="de">Befehle & Features</h2><h2 class="fr">Commandes & Fonctions</h2>
-            <ul>
-                <li><strong>/backpack</strong> - <span class="de">Öffne deinen Rucksack</span><span class="fr">Ouvre ton sac à dos</span></li>
-                <li><strong>/sit</strong> - <span class="de">Überall hinsetzen</span><span class="fr">S'asseoir partout</span></li>
-                <li><strong>/sethome</strong> - <span class="de">Zuhause speichern</span><span class="fr">Sauvegarder sa maison</span></li>
-                <li><strong>/home</strong> - <span class="de">Nach Hause teleportieren</span><span class="fr">Se téléporter à la maison</span></li>
-                <li><strong>/skin [Name]</strong> - <span class="de">Deinen Skin ändern</span><span class="fr">Changer ton skin</span></li>
-            </ul>
+            <h2 class="de">Anleitung & Befehle</h2><h2 class="fr">Guide & Commandes</h2>
+            
+            <div class="plugin-item">
+                <p><strong>BackpacksRemastered</strong></p>
+                <p class="de">Ein tragbares Zusatz-Inventar. Nutze <span class="cmd">/backpack</span> zum Öffnen.</p>
+                <p class="fr">Un inventaire portable supplémentaire. Utilisez <span class="cmd">/backpack</span> pour l'ouvrir.</p>
+            </div>
+
+            <div class="plugin-item">
+                <p><strong>GSit</strong></p>
+                <p class="de">Überall hinsetzen oder legen. Befehle: <span class="cmd">/sit</span>, <span class="cmd">/lay</span> oder Rechtsklick auf Treppen.</p>
+                <p class="fr">S'asseoir ou s'allonger partout. Commandes: <span class="cmd">/sit</span>, <span class="cmd">/lay</span> ou clic droit sur les escaliers.</p>
+            </div>
+
+            <div class="plugin-item">
+                <p><strong>SkinRestorer</strong></p>
+                <p class="de">Repariert Skins. Nutze <span class="cmd">/skin [Name]</span> (z.B. /skin Notch), um einen Skin zu laden.</p>
+                <p class="fr">Répare les skins. Utilisez <span class="cmd">/skin [nom]</span> (ex: /skin Notch) pour charger un skin.</p>
+            </div>
+
+            <div class="plugin-item">
+                <p><strong>EssentialsX</strong></p>
+                <p class="de">Grundversorgung. <span class="cmd">/sethome</span> zum Speichern und <span class="cmd">/home</span> zum Teleportieren.</p>
+                <p class="fr">Fonctions de base. <span class="cmd">/sethome</span> pour sauvegarder et <span class="cmd">/home</span> pour se téléporter.</p>
+            </div>
         </div>
     </div>
 
@@ -112,7 +121,6 @@
     function updateTimer(id, targetDate) {
         const el = document.getElementById(id);
         const target = new Date(targetDate).getTime();
-
         setInterval(() => {
             const now = new Date().getTime();
             const d = target - now;
@@ -120,7 +128,6 @@
             const hours = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const mins = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
             const secs = Math.floor((d % (1000 * 60)) / 1000);
-
             el.innerHTML = `
                 <div><span class="time">${days}</span><span class="label">DAYS</span></div>
                 <div><span class="time">${hours}</span><span class="label">HOURS</span></div>
